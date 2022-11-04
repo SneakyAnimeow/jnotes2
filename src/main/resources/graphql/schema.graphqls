@@ -1,0 +1,24 @@
+type Note{
+    id: Int!
+    name: String!
+    content: String!
+    categoryId: Int!
+}
+
+type Category{
+    id: Int!
+    name: String!
+    notes: [Note]
+}
+
+type Query{
+    notes(categoryId: Int): [Note]
+    categories: [Category]
+}
+
+type Mutation{
+    addCategory(name: String!): Category
+    addNote(name: String!, content: String!, categoryId: Int!): Note
+    deleteCategory(id: Int!): Category
+    deleteNote(id: Int!): Note
+}

@@ -1,0 +1,86 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.5'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'java'
+    id 'application'
+    id 'org.beryx.runtime' version '1.12.7'
+//    id "com.github.johnrengelman.shadow" version "7.1.2"
+}
+
+group = 'club.anims'
+version = '1.0'
+sourceCompatibility = '17'
+
+application.setMainClass('club.anims.jnotes2.Jnotes2Application');
+
+runtime {
+    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+    modules = [
+            'java.base',
+            'java.compiler',
+            'java.datatransfer',
+            'java.desktop',
+            'java.instrument',
+            'java.logging',
+            'java.management',
+            'java.naming',
+            'java.prefs',
+            'java.rmi',
+            'java.scripting',
+            'java.security.jgss',
+            'java.sql',
+            'java.sql.rowset',
+            'java.transaction.xa',
+            'java.xml',
+            'jdk.httpserver',
+            'jdk.jfr',
+            'jdk.unsupported'
+    ]
+
+    jpackage {
+        imageName = 'JNotes2'
+        imageOptions = ['--win-console']
+        skipInstaller = false
+    }
+}
+
+//shadowJar{
+//    archiveFileName = 'jnotes2-1.0-plain-all.jar'
+//}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //spring start fix
+//    implementation 'org.javassist:javassist:3.29.2-GA'
+
+    implementation 'org.xerial:sqlite-jdbc:3.39.3.0'
+    implementation 'com.github.gwenn:sqlite-dialect:0.1.2'
+    implementation 'at.favre.lib:bcrypt:0.9.0'
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'com.google.code.gson:gson:2.10'
+
+//    implementation 'org.springframework.boot:spring-boot-loader'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-graphql'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework:spring-webflux'
+    testImplementation 'org.springframework.graphql:spring-graphql-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
