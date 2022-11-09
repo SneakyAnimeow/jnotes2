@@ -6,6 +6,8 @@ import {Button, Card, FloatingLabel, Form, InputGroup} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import {client} from "../index";
 
+import "./NotesBar.css";
+
 export default function NotesBar(props: any) {
     const [noteName, setNoteName] = useState("");
     const [noteContent, setNoteContent] = useState("");
@@ -56,9 +58,9 @@ export default function NotesBar(props: any) {
     }
 
     return (
-        <div>
+        <div className="notesContainer">
             {!error && data.notes.map((note: NoteDto) => (
-                <Note note={note}/>
+                <Note note={note} className="note"/>
             ))}
             <Card style={{width: '18rem'}}>
                 <Card.Body>

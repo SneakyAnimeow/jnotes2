@@ -1,0 +1,21 @@
+.notesContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+    background-color: #2196F3;
+    padding: 10px;
+    margin-left: 15%;
+    margin-right: 5%;
+}
+
+.note {
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding: 20px 0;
+    font-size: 30px;
+}
+
+
+@media (max-width: 992px) {
+    .container {  grid-template-columns: auto;}
+}

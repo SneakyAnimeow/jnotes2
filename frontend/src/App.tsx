@@ -49,7 +49,7 @@ function App() {
                     {!token && <Route path="/login" element={<Login/>}/>}
                     {token && <Route path="/panel" element={<Panel/>}/>}
                     {token && <Route path="/logout" element={<Logout/>}/>}
-                    <Route path="*" element={<Home/>}/>
+                    <Route path="*" element={<Home token={token}/>}/>
                 </Switch>
             </Router>
         </>

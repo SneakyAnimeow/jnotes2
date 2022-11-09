@@ -3,10 +3,12 @@ import {useMutation, useQuery} from "@apollo/client";
 import {DELETE_CATEGORY, GET_CATEGORIES} from "../GraphQLQueries";
 import CategoryDto from "../dtos/CategoryDto";
 import NotesBar from "./NotesBar";
-import {Button} from "react-bootstrap";
+import {Button, Navbar} from "react-bootstrap";
 import AddCategoryBox from "./AddCategoryBox";
 import Cookies from "js-cookie";
 import {client} from "../index";
+
+import "./CategoriesBar.css";
 
 export default function CategoriesBar() {
     const [selectedCategoryId, setSelectedCategoryId] = useState(-1);
@@ -18,7 +20,7 @@ export default function CategoriesBar() {
     const [deleteCategory] = useMutation(DELETE_CATEGORY);
 
     setTimeout(() => {
-        if(error){
+        if (error) {
             Cookies.remove("token");
             window.location.reload();
         }
@@ -36,37 +38,41 @@ export default function CategoriesBar() {
         <div>
             {error && <p>Session expired, redirecting...</p>}
 
-            {!error && data.categories.map((category: CategoryDto) => (
-                <Button key={category.id} variant={addCategoryBoxVisible ? "warning" : "primary"} onClick={async () => {
-                    if(!addCategoryBoxVisible){
-                        await setSelectedCategoryId(category.id);
-                        return;
+            <Navbar bg="primary" variant="dark">
+                <div className="text-nowrap overflow-auto">
+                    {!error &&
+                        <Button variant={addCategoryBoxVisible ? "danger" : "success"}
+                                onClick={handleAddCategory}>{addCategoryBoxVisible ? "-" : "+"}</Button>
                     }
+                    {!error && data.categories.map((category: CategoryDto) => (
+                        <Button key={category.id} variant={addCategoryBoxVisible ? "warning" : "primary"}
+                                onClick={async () => {
+                                    if (!addCategoryBoxVisible) {
+                                        await setSelectedCategoryId(category.id);
+                                        return;
+                                    }
 
-                    let errorOccurred = false;
+                                    let errorOccurred = false;
 
-                    await deleteCategory({
-                        variables: {
-                            id: category.id
-                        },
-                        onError: (error) => {
-                            errorOccurred = true;
-                            alert(error.message);
-                        }
-                    });
+                                    await deleteCategory({
+                                        variables: {
+                                            id: category.id
+                                        },
+                                        onError: (error) => {
+                                            errorOccurred = true;
+                                            alert(error.message);
+                                        }
+                                    });
 
-                    if (errorOccurred) {
-                        return;
-                    }
+                                    if (errorOccurred) {
+                                        return;
+                                    }
 
-                    await client.refetchQueries({include: [GET_CATEGORIES]});
-                }}>{category.name}</Button>
-            ))}
-
-            {!error &&
-                <Button variant={addCategoryBoxVisible ? "danger" : "success"}
-                        onClick={handleAddCategory}>{addCategoryBoxVisible ? "-" : "+"}</Button>
-            }
+                                    await client.refetchQueries({include: [GET_CATEGORIES]});
+                                }}>{category.name}</Button>
+                    ))}
+                </div>
+            </Navbar>
 
             {!error && addCategoryBoxVisible && <AddCategoryBox/>}
 

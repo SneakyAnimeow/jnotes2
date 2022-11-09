@@ -1,0 +1,22 @@
+.generalTextContainer{
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.5em;
+    margin: 10%;
+    padding: 20px 0;
+    text-align: center;
+    background-color: #0d71dc;
+    color: wheat;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+a{
+    color: paleturquoise;
+}
+
+footer{
+    color: wheat;
+    text-align: center;
+    font-size: 1.5em;
+    font-family: 'Roboto', sans-serif;
+}
